@@ -6,8 +6,8 @@ import Style from './NavigationItems.css'
 const navigationItems = (props) => (
 
     <ul className={Style.NavigationItems}>
-        <NavigationItem link="/" active>Bruger Builder</NavigationItem>
-        <NavigationItem link="/">Check Out</NavigationItem>
+        <NavigationItem link="/" exact>Bruger Builder</NavigationItem>
+        <NavigationItem link="/orders">Order</NavigationItem>
     </ul>
 
 

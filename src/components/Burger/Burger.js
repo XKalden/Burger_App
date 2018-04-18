@@ -13,6 +13,7 @@ const burger = (props) => {
                 .map((_,k) => {
                     console.log(props.ingredients[i] + i);
                     console.log('index ' + k);
+                    console.log(i + k)
                     return <BurgerIngredient key={i + k} type={i} />
                 });
         })
