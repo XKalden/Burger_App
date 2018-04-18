@@ -1,6 +1,7 @@
 import React from 'react';
 import Style from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import {withRouter} from 'react-router-dom';
 
 
 
@@ -26,9 +27,11 @@ const burger = (props) => {
 
     console.log(transformIngredient);
 
- 
+    console.log(props);
 
     return (
+
+     
         <div className={Style.Burger}>
             <BurgerIngredient type="bread-top"/>
             {transformIngredient}
@@ -39,4 +42,4 @@ const burger = (props) => {
 
 }
 
-export default burger;
+export default withRouter(burger);
