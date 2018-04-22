@@ -20,12 +20,9 @@ const order = (props) => {
             style={{
                 testTransform: 'capitalize',
                 diplay: 'inline-block',
-        
                 margin: '0 8px',
                 border: '1px solid #ccc',
                 padding: '5px'
-
-
             }}
             key={ig.name}>{ig.name} ({ig.amount}) </span>
 

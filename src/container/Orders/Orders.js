@@ -3,7 +3,6 @@ import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-
 class Orders extends Component{
     state = {
         orders: [],
@@ -26,6 +25,7 @@ class Orders extends Component{
                 this.setState({loading: false, orders: fetchedObject});
              
                 console.log(this.state);
+          
             })
             .catch(err => {
                 this.setState({loading: false});
