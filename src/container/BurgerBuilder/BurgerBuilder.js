@@ -12,7 +12,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import { connect } from 'react-redux';
-import * as burgerBuilderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     state = {
@@ -23,6 +23,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
+
         console.log(this.props);
         this.props.onIngredientHandler();
 
@@ -86,6 +87,7 @@ class BurgerBuilder extends Component {
         // });
 
         //***  Not Using queryParam ****/
+        this.props.onInPurchased();
         this.props.history.push('./checkout');
         
 
@@ -144,17 +146,18 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        error: state.error
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemove: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
-        onIngredientHandler: () => dispatch(burgerBuilderActions.initIngredients()),
+        onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemove: (ingName) => dispatch(actions.removeIngredient(ingName)),
+        onIngredientHandler: () => dispatch(actions.initIngredients()),
+        onInPurchased : () => dispatch(actions.purchaseInit()),
     
     }
 

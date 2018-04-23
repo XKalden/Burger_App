@@ -8,18 +8,22 @@ import {BrowserRouter} from 'react-router-dom';
 
 // redux
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 
-import burgerBuilder from './store/reducers/burderBuilder';
+import burgerBuilderReducer from './store/reducers/burderBuilder';
+import orderReducer from './store/reducers/order';
 
 // redux-thunk libary make asynchronous call 
 import thunk from 'redux-thunk';
 
-
+const rootReducer = combineReducers({
+    burgerBuilder: burgerBuilderReducer,
+    order: orderReducer,
+})
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(burgerBuilder, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
     <Provider store={store}>
