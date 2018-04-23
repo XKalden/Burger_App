@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { truncate } from 'fs';
+import { updateObject } from '../utility';
 
 const initialStata = {
     orders: [],
@@ -10,10 +11,11 @@ const initialStata = {
 const reducer = (state = initialStata, action) => {
     switch (action.type){
         case actionTypes.PURCHASE_INIT:
-            return{
-                ...state,
-                purchased: false
-            }
+            return updateObject(state, {purchased: false});
+            // return{
+            //     ...state,
+            //     purchased: false
+            // }
         case actionTypes.PURCHASE_BURGER_START:
             return{
                 ...state,
