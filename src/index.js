@@ -12,14 +12,18 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 
 import burgerBuilderReducer from './store/reducers/burderBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
 // redux-thunk libary make asynchronous call 
 import thunk from 'redux-thunk';
 
+
+
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
     order: orderReducer,
-})
+    auth: authReducer
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

@@ -1,8 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
-
-
 const initialState = {
     ingredients: null,
     totalPrice: 4,
@@ -15,7 +13,6 @@ const ingredient_price = {
     meat: 1.3,
     bacon: 0.7,
 }
-
 
 
 // function linking to switch statement (part of REFACTOR Code)
@@ -45,8 +42,6 @@ const removeIngredient = (state, action) => {
         totalPrice: state.totalPrice - ingredient_price[action.ingredientName],
     };
 }
-
-
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -79,10 +74,6 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
-
-
-
 }
-
 
 export default reducer;

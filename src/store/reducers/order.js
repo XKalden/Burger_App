@@ -16,11 +16,13 @@ const reducer = (state = initialStata, action) => {
             //     ...state,
             //     purchased: false
             // }
+            
         case actionTypes.PURCHASE_BURGER_START:
             return{
                 ...state,
                 loading: true
             }
+
         case actionTypes.PURCHASE_BURGER_SUCCESS:
             const newOrder = {
                 ...action.orderData,

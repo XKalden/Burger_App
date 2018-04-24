@@ -55,7 +55,8 @@ class ContactData extends Component{
                 validation:{
                     required: true,
                     minLength: 5,
-                    maxlength: 5
+                    maxlength: 5,
+                    isNumeric: true
                 },
                 valid:false,
                 touch: false,
@@ -82,6 +83,7 @@ class ContactData extends Component{
                 value: '',
                 validation:{
                     required: true,
+                    isEmail: true
                 },
                 valid:false,
                 touch: false,
@@ -158,14 +160,24 @@ class ContactData extends Component{
             isValid = value.length >= rule.minLength && isValid;
         }
 
-        return isValid;
+        if (rule.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
 
+        if (rule.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        return isValid;
     }
 
 
 
     // function to change value  INPUT
     inputChangedHandler = (event, id) => {
+
         const updatedOrderFrom = {
             ...this.state.orderForm
         }
@@ -185,15 +197,22 @@ class ContactData extends Component{
         let formValidBool = true;
         for (let keyInput in updatedOrderFrom){
             formValidBool = updatedOrderFrom[keyInput].valid && formValidBool;
+            console.log('key ', keyInput);
         }
 
         console.log('this bool ' + formValidBool);
+        console.log('this is ID'+ id);
         
         this.setState({
             orderForm: updatedOrderFrom,
             fromValid:formValidBool
         });
     }
+
+
+
+
+
 
     render(){
         const formElementsArray = [];
@@ -229,15 +248,16 @@ class ContactData extends Component{
             </form>
         );
 
+
+
         if(this.props.loading){
             form = <Spinner />
         }
 
       
         return (
-            
             <div className={Style.ContactData}>
-    
+
                 <h4>Enter your Contact Data</h4>
                  {form}
 
@@ -252,7 +272,6 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-     
     }
 };
 

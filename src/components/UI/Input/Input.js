@@ -20,13 +20,14 @@ const input = ( props ) => {
         console.log('wrong');
     }
 
-    switch( props.elementType){
+    switch(props.elementType){
         case('input'):
             inputElement = <input 
                 className={inputClass.join(' ')} 
                 {...props.elementConfig} 
                 value={props.value} 
                 onChange={props.changed}/>
+
             break;
         case('textarea'):
             inputElement = <textarea 
