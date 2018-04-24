@@ -8,7 +8,8 @@ import Style from './Auth.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 
-
+import Spinner from '../../components/UI/Spinner/Spinner';
+import { stat } from 'fs';
 
 class Auth extends Component {
     state = {
@@ -43,8 +44,9 @@ class Auth extends Component {
             }
         }, 
         isSignUp: true,
-
     }
+
+
 
     checkValidity(value, rule){
         let isValid = true;
@@ -123,7 +125,7 @@ class Auth extends Component {
             })
         }
 
-        const form = formElementsArray.map(formElement => (
+        let form = formElementsArray.map(formElement => (
             <Input 
                 key={formElement.id}
                 elementType={formElement.config.elementType}
@@ -135,12 +137,24 @@ class Auth extends Component {
                 changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ));
 
+        if(this.props.loading){
+            form = <Spinner />
+        }
+
+
+        let errormessage = null;
+        if(this.props.error){
+            errormessage = (
+                <p>{this.props.error.message}</p>
+            )
+        }
 
 
 
 
         return(
             <div className={Style.Auth}>
+                {errormessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">Submit</Button>
@@ -157,6 +171,14 @@ class Auth extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error,
+
+    }
+}
+
 const mapDispathToProps = (dispatch) => {
     return {
         onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password,isSignUp )),
@@ -165,4 +187,4 @@ const mapDispathToProps = (dispatch) => {
 
 }
 
-export default connect(null, mapDispathToProps)(Auth);
+export default connect(mapStateToProps, mapDispathToProps)(Auth);
