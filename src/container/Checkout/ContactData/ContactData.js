@@ -14,6 +14,8 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 // import action for axios request 
 import * as actions from '../../../store/actions/index';
 
+import { updateObject , checkValidity} from '../../../shared/utility';
+
 
 
 class ContactData extends Component{
@@ -138,61 +140,38 @@ class ContactData extends Component{
         //     });
     }
 
-
-    checkValidity(value, rule){
-        let isValid = true;
-
-        // Make Select be true for required state 
-        if(!rule){
-            return true;
-        }
-
-        if(rule.required ){
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if(rule.maxlength){
-            // retrun true  Max less & equal to  value.length
-            isValid = value.length <= rule.maxlength && isValid;
-        }
-
-        if(rule.minLength){
-            // Return True min less & equal value.length 
-            isValid = value.length >= rule.minLength && isValid;
-        }
-
-        if (rule.isEmail) {
-            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            isValid = pattern.test(value) && isValid
-        }
-
-        if (rule.isNumeric) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid
-        }
-
-        return isValid;
-    }
-
-
-
     // function to change value  INPUT
     inputChangedHandler = (event, id) => {
 
-        const updatedOrderFrom = {
-            ...this.state.orderForm
-        }
-        // copy deep element from state
-        const updatedFormElement = {
-            ...updatedOrderFrom[id]
-        }
+        //REFACTORED code using updateObject() 
+        const updatedFormElement = updateObject(this.state.orderForm[id],{
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.orderForm[id].validation),
+            touch: true,
+        })
 
-        updatedFormElement.value = event.target.value;
-        // Added Touch statment to be true 
-        updatedFormElement.touch = true;
+        const updatedOrderFrom = updateObject(this.state.orderForm, {
+            [id] : updatedFormElement
+        });
         
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        updatedOrderFrom[id] = updatedFormElement;
+        
+        // const updatedOrderFrom = {
+        //     ...this.state.orderForm
+        // }
+
+
+        // copy deep element from state
+        // const updatedFormElement = {
+        //     ...updatedOrderFrom[id]
+        // }
+
+        // updatedFormElement.value = event.target.value;
+        // // Added Touch statment to be true 
+        // updatedFormElement.touch = true;
+        
+        // updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        
+        // updatedOrderFrom[id] = updatedFormElement;
         
 
         //check if all Input are filled

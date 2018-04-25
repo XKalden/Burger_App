@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { truncate } from 'fs';
-import { updateObject } from '../utility';
+import { updateObject } from '../../shared/utility';
 
 const initialStata = {
     orders: [],
