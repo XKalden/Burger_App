@@ -7,9 +7,9 @@ import Style from './Auth.css';
 
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { stat } from 'fs';
 
 class Auth extends Component {
     state = {
@@ -46,6 +46,12 @@ class Auth extends Component {
         isSignUp: true,
     }
 
+
+    componentDidMount(){
+        if(!this.props.buildingBurger && this.props.authRedirectPath !== '/'){
+            this.props.onSetAuthRedirectPath();
+        }
+    }
 
 
     checkValidity(value, rule){
@@ -149,23 +155,25 @@ class Auth extends Component {
             )
         }
 
-
+        // Redirect Path (HOME)
+        let authRedirect = null;
+        if(this.props.isAuthenticated){
+            authRedirect = <Redirect to={this.props.authRedirectPath}/>
+        }
 
 
         return(
             <div className={Style.Auth}>
+                {authRedirect}
                 {errormessage}
+       
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">Submit</Button>
                     <Button 
                         clicked={this.switchAuthModeHandler}
                         btnType="Danger">Switch To {this.state.isSignUp ? 'Sign IN' : 'Sign UP'} </Button>
-
-
-                        
                 </form>
-
             </div>
         )
     }
@@ -175,13 +183,17 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
+        isAuthenticated: state.auth.token !== null,
+        buildingBurger: state.burgerBuilder.building,
+        authRedirectPath : state.auth.authRedirectPath,
 
-    }
-}
+    };
+};
 
 const mapDispathToProps = (dispatch) => {
     return {
         onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password,isSignUp )),
+        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
 
     };
 

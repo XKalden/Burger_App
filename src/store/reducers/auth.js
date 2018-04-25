@@ -5,7 +5,12 @@ const initialState = {
     token: null,
     userId: null,
     error: null,
-    loading: false
+    loading: false,
+    authRedirectPath: '/'
+};
+
+const setAuthRedirectPath = (state, action) => {
+    return updateObject( state, { authRedirectPath: action.urlPath})
 };
 
 const authStart = ( state, action ) => {
@@ -21,7 +26,6 @@ const authSuccess = (state, action) => {
      } );
 };
 
-
 const authFail = (state, action) => {
     console.log('I am logged out');
     return updateObject( state, {
@@ -34,8 +38,11 @@ const authLogout = (state, action) => {
     return updateObject( state, { token: null, userId: null});
 }
 
+
+
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.SET_AUTH_REDIRECT_PATH: return setAuthRedirectPath(state, action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
         case actionTypes.AUTH_START: return authStart(state, action);
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
@@ -44,7 +51,6 @@ const reducer = ( state = initialState, action ) => {
             return state;
     }
 };
-
 
 
 export default reducer;

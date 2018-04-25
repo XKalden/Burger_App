@@ -7,9 +7,16 @@ const navigationItems = (props) => (
 
     <ul className={Style.NavigationItems}>
         <NavigationItem link="/" exact>Bruger Builder</NavigationItem>
-        <NavigationItem link="/orders">Order</NavigationItem>
-        <NavigationItem link="/auth">Authenticate</NavigationItem>
-    
+        
+        
+        {!props.isAuthenticated ? null : <NavigationItem link="/orders">Order</NavigationItem> }
+
+        {/* If(True) ? Authenticate : Logout */}
+        {!props.isAuthenticated 
+            ? <NavigationItem link="/auth">Authenticate</NavigationItem> 
+            : <NavigationItem link="/logout">Logout</NavigationItem> 
+        }
+
     </ul>
 );
 export default navigationItems;

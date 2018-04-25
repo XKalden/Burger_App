@@ -121,11 +121,12 @@ class ContactData extends Component{
         const order = {
             ingredient: this.props.ings,
             price: this.props.price,
-            orderData: formData
+            orderData: formData,
+            userId: this.props.userId,
         }
 
         // order data props 
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger(order,this.props.token);
 
         // axios.post('/orders.json', order)
         //     .then(response => {
@@ -185,6 +186,7 @@ class ContactData extends Component{
         const updatedFormElement = {
             ...updatedOrderFrom[id]
         }
+
         updatedFormElement.value = event.target.value;
         // Added Touch statment to be true 
         updatedFormElement.touch = true;
@@ -196,8 +198,7 @@ class ContactData extends Component{
         //check if all Input are filled
         let formValidBool = true;
         for (let keyInput in updatedOrderFrom){
-            formValidBool = updatedOrderFrom[keyInput].valid && formValidBool;
-            console.log('key ', keyInput);
+            formValidBool = updatedOrderFrom[keyInput].valid && formValidBool;     
         }
 
         console.log('this bool ' + formValidBool);
@@ -239,8 +240,7 @@ class ContactData extends Component{
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
-                        changed={(event) => this.inputChangedHandler(event, formElement.id)}
-                        />
+                        changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
                 ))}
                 
                 <Button 
@@ -272,13 +272,17 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
+        token: state.auth.token,
+
+        userId: state.auth.userId,
+
     }
 };
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 }
 
